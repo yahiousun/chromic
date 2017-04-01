@@ -57,7 +57,7 @@ class Embedded {
 
       this.attr(this.options.attrs);
 
-      this.ref.addEventListener('load', this.onload, false);
+      this.ref.addEventListener('load', this._onload, false);
 
       this.ref.src = this.url;
 
@@ -67,7 +67,7 @@ class Embedded {
 
   public unload() {
     if (this.ref) {
-      this.ref.removeEventListener('load', this.onload);
+      this.ref.removeEventListener('load', this._onload);
       this.ref.parentNode.removeChild(this.ref);
       delete this.state;
     }
@@ -80,7 +80,7 @@ class Embedded {
     }
   }
 
-  private onload = () => {
+  private _onload = () => {
     this.state = DONE;
   }
 }

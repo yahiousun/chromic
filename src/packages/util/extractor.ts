@@ -1,6 +1,8 @@
 namespace Extractor {
   export interface MediaGroup {
-    contents: MediaObject[]
+    mediaGroups: {
+      contents: MediaObject[]
+    }
   }
 
   export interface MediaObject {
@@ -8,14 +10,9 @@ namespace Extractor {
     type: string,
     medium: string,
     width: number,
-    height: number
+    height: number,
   }
-
-  export function domain(url: string) {
-    const matches = url.match(/^https?\:\/\/([^\/?#]+)(?:[\/?#]|$)/i);
-    return matches && matches[1];
-  }
-
+  
   export function text(input: string) {
     const parser = new DOMParser();
     const html: HTMLDocument = parser.parseFromString(input, 'text/html');
@@ -39,8 +36,12 @@ namespace Extractor {
     });
 
     if (contents.length) {
-      return [{ contents }];
+      return [{
+        mediaGroups: { contents }
+      }];
     }
     return null;
   }
 }
+
+export default Extractor;

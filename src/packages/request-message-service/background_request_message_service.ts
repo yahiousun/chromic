@@ -1,15 +1,15 @@
-import RequestMessageService from './request-message-service';
+import RequestMessageService from './request_message_service';
 
 class BackgroundRequestMessageService {
   public onrequest: RequestMessageService.RequestHandler;
   public onresponse: RequestMessageService.RequestCallback;
   public onnotification: RequestMessageService.RequestHandler;
-  private callbacks: Map<string, RequestMessageService.RequestCallback>;
+  private _callbacks: Map<string, RequestMessageService.RequestCallback>;
   constructor() {
-    this.callbacks = new Map();
-    chrome.runtime.onMessage.addListener(this.onmessage);
+    this._callbacks = new Map();
+    chrome.runtime.onMessage.addListener(this._onmessage);
   }
-  private onmessage = (message: any, sender: chrome.runtime.MessageSender) => {
+  private _onmessage = (message: any, sender: chrome.runtime.MessageSender) => {
     if (!message.id) {
       // Handle Notification
       if (this.onnotification) {
@@ -17,9 +17,9 @@ class BackgroundRequestMessageService {
       }
     } else if (message && message.id && !message.method) {
       // Handle Response
-      const callback: RequestMessageService.RequestCallback = this.callbacks.has(message.id) && this.callbacks.get(message.id);
+      const callback: RequestMessageService.RequestCallback = this._callbacks.has(message.id) && this._callbacks.get(message.id);
       if (callback) {
-        this.callbacks.delete(message.id);
+        this._callbacks.delete(message.id);
         callback(message);
       }
     } else {
@@ -35,13 +35,13 @@ class BackgroundRequestMessageService {
     }
   }
   public request(tabId: number, message: RequestMessageService.RequestObject, callback: RequestMessageService.RequestCallback) {
-    this.callbacks.set(message.id, callback);
+    this._callbacks.set(message.id, callback);
     chrome.tabs.sendMessage(tabId, message);
     return this;
   }
-  public abort(requestMessageId: string) {
-    if (this.callbacks.has(requestMessageId)) {
-      this.callbacks.delete(requestMessageId);
+  public abort(msgId: string) {
+    if (this._callbacks.has(msgId)) {
+      this._callbacks.delete(msgId);
     }
     return this;
   }
