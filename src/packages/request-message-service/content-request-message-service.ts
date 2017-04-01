@@ -1,6 +1,6 @@
-import RequestMessageService from './RequestMessageService';
+import RequestMessageService from './request-message-service';
 
-class BackgroundRequestMessageService {
+class ContentRequestMessageService {
   public onrequest: RequestMessageService.RequestHandler;
   public onresponse: RequestMessageService.RequestCallback;
   public onnotification: RequestMessageService.RequestHandler;
@@ -17,27 +17,28 @@ class BackgroundRequestMessageService {
       }
     } else if (message && message.id && !message.method) {
       // Handle Response
-      const callback: RequestMessageService.RequestCallback = this.callbacks.has(message.id) && this.callbacks.get(message.id);
+      const callback:RequestMessageService.RequestCallback = this.callbacks.has(message.id) && this.callbacks.get(message.id);
       if (callback) {
         this.callbacks.delete(message.id);
         callback(message);
       }
     } else {
       // Handle Resquest
-      if (/^forward\//.test(message.method)) {
-        const tabId = ((sender.tab && sender.tab.id) ? sender.tab.id : Number(sender.id));
-        this.request(tabId, message, (response) => {
-          this.respond(tabId, response);
-        });
-      } else if (this.onrequest) {
-        this.onrequest(message);
+      if (this.onrequest) {
+        // Handle forwarded request
+        const request = { ...message, method: message.method.replace(/^forward\//, '') };
+        this.onrequest(request);
       }
     }
   }
-  public request(tabId: number, message: RequestMessageService.RequestObject, callback: RequestMessageService.RequestCallback) {
+  public request(message: RequestMessageService.RequestObject, callback: RequestMessageService.RequestCallback) {
     this.callbacks.set(message.id, callback);
-    chrome.tabs.sendMessage(tabId, message);
+    chrome.runtime.sendMessage(message);
     return this;
+  }
+  public forward(message: RequestMessageService.RequestObject, callback: RequestMessageService.RequestCallback) {
+    const request = { ...message, method:`forward/${message.method}` };
+    return this.request(request, callback);
   }
   public abort(requestMessageId: string) {
     if (this.callbacks.has(requestMessageId)) {
@@ -45,14 +46,14 @@ class BackgroundRequestMessageService {
     }
     return this;
   }
-  public notify(tabId: number, message: RequestMessageService.RequestObject) {
-    chrome.tabs.sendMessage(tabId, message);
+  public notify(message: RequestMessageService.RequestObject) {
+    chrome.runtime.sendMessage(message);
     return this;
   }
-  public respond(tabId: number, message: RequestMessageService.ResponseObject) {
-    chrome.tabs.sendMessage(tabId, message);
+  public respond(message: RequestMessageService.ResponseObject) {
+    chrome.runtime.sendMessage(message);
     return this;
   }
 }
 
-export default BackgroundRequestMessageService;
+export default ContentRequestMessageService;

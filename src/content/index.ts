@@ -1,5 +1,5 @@
-import { ContentRequestMessageService, MethodType } from '../packages/RequestMessageService';
-import Embeddeb, { DONE } from '../packages/Embeddeb';
+import { ContentRequestMessageService, MethodType } from '../packages/request-message-service';
+import Embeddeb, { DONE } from '../packages/embeddeb';
 
 const messageService = new ContentRequestMessageService();
 const embeddebApp = new Embeddeb();

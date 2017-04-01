@@ -1,4 +1,4 @@
-import Embeddeb, { LOADING, DONE } from './Embeddeb';
+import Embeddeb, { LOADING, DONE } from './embeddeb';
 
 export { LOADING, DONE };
 

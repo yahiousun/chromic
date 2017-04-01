@@ -1,5 +1,5 @@
 import { v4 } from 'uuid';
-import { BackgroundRequestMessageService, MethodType } from '../packages/RequestMessageService';
+import { BackgroundRequestMessageService, MethodType } from '../packages/request-message-service';
 
 const messageService = new BackgroundRequestMessageService();
 

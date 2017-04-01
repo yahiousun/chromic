@@ -3,7 +3,7 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
-import { ContentRequestMessageService, MethodType } from './packages/RequestMessageService';
+import { ContentRequestMessageService, MethodType } from './packages/request-message-service';
 
 if (environment.production) {
   enableProdMode();
