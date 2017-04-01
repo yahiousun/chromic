@@ -1,0 +1,33 @@
+{
+  "manifest_version": 2,
+
+  "name": "Chromic",
+  "description": "Chrome rss comic reader extension",
+  "version": "0.1.0",
+  "options_ui": {
+    "page": "options.html",
+    "chrome_style": true
+  },
+  "browser_action": {
+    "default_icon": "favicon.ico"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["inline.bundle.js", "content.bundle.js"]
+    }
+  ],
+  "background": {
+    "scripts": ["inline.bundle.js", "background.bundle.js"]
+  },
+
+  "permissions": [
+    "storage",
+    "alarms",
+    "<all_urls>"
+  ],
+
+  "web_accessible_resources": ["index.html"],
+  
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
+}
