@@ -12,5 +12,11 @@ messageService.onrequest = (request) => {
     } else {
       embeddebApp.unload();
     }
-  }  
+  }
 }
+
+import { FeedParser } from '../packages/feed';
+
+FeedParser.parse('http://manhua.dmzj.com/y/yiquanchaoren/rss.xml').then((feed) => {
+  console.log(feed);
+});
