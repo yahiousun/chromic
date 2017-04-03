@@ -4,37 +4,17 @@ interface NodeModule {
   id: string;
 }
 
-interface FeedPersionObject {
-  name: string;
-  email?: string;
-  uri?: string;
-}
-
-interface FeedCategoryObject {
-  label: string;
-  term?: string;
-  scheme?: string;
-}
-
-interface FeedSourceObject {
-  title: string;
-  id?: string;
-  updated?: string;
-}
-
 interface FeedEntryObject {
   id: string;
   title: string;
   updated: string;
+  read: number;
   link?: string;
-  author?: FeedPersionObject;
+  author?: string;
   content?: any;
   summary?: string;
-  categories?: FeedCategoryObject[];
-  contributor?: FeedPersionObject;
-  published?: string;
-  rights?: string;
-  source?: FeedSourceObject;
+  categories?: string[];
+  source?: string;
 }
 
 interface FeedObject {
@@ -42,13 +22,9 @@ interface FeedObject {
   title: string;
   updated: string;
   link?: string;
-  author?: FeedPersionObject;
-  categories?: FeedCategoryObject[];
-  contributor?: FeedPersionObject;
-  generator?: string;
+  author?: string;
+  categories?: string[];
   icon?: string;
-  logo?: string;
-  rights?: string;
   subtitle?: string;
   entries?: FeedEntryObject[];
 }
