@@ -107,7 +107,7 @@ class FeedParser {
     });
     return result;
   }
-  public handleauthor(data) {
+  public handleauthor(data): PersonObject {
     const author: any = {};
     Object.keys(data).forEach((key) => {
       if (key === 'name') {
@@ -313,7 +313,7 @@ class FeedParser {
     }
     return null;
   }
-  public async load(url?: string) {
+  public async load(url?: string): Promise<FeedObject> {
     if (url) {
       this.meta.url = url;
     }
@@ -324,7 +324,7 @@ class FeedParser {
     }
     return Promise.reject('No Feed URL');
   }
-  public parse(data: string) {
+  public parse(data: string): FeedObject {
     this.stream.write(data);
     this.stream.end();
     if (this.meta.id && this.meta.title && this.meta.updated) {

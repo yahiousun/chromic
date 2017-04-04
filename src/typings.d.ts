@@ -4,16 +4,23 @@ interface NodeModule {
   id: string;
 }
 
+interface PersonObject {
+  name: string;
+  email?: string;
+  uri?: string;
+}
+
 interface FeedEntryObject {
   id: string;
   title: string;
   updated: string;
   read: number;
   link?: string;
-  author?: string;
+  author?: PersonObject;
   content?: any;
   summary?: string;
   categories?: string[];
+  enclosures?: string[];
   source?: string;
 }
 
@@ -22,7 +29,7 @@ interface FeedObject {
   title: string;
   updated: string;
   link?: string;
-  author?: string;
+  author?: PersonObject;
   categories?: string[];
   icon?: string;
   subtitle?: string;
