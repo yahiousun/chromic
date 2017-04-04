@@ -10,7 +10,7 @@ class Feed {
   public categories: string[];
   public icon: string;
   public subtitle: string;
-  public entries: FeedEntryObject[];
+  public entries: Post[];
   constructor(props: FeedObject) {
     Object.assign(this, props);
   }

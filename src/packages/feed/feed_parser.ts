@@ -143,7 +143,7 @@ class FeedParser {
       author: null,
       subtitle: null,
       icon: null,
-      categories: []
+      categories: <CategoryObject[]>[]
     }
 
     Object.keys(data).forEach((key) => {
@@ -242,7 +242,7 @@ class FeedParser {
       title: null,
       updated: null,
       summary: null,
-      categories: [],
+      categories: <CategoryObject[]>[],
       enclosures: [],
       content: null,
       link: null,

@@ -19,7 +19,7 @@ interface FeedEntryObject {
   author?: PersonObject;
   content?: any;
   summary?: string;
-  categories?: string[];
+  categories?: CategoryObject[];
   enclosures?: any[];
   source?: string;
 }
@@ -30,8 +30,14 @@ interface FeedObject {
   updated: string;
   link?: string;
   author?: PersonObject;
-  categories?: string[];
+  categories?: CategoryObject[];
   icon?: string;
   subtitle?: string;
   entries?: FeedEntryObject[];
+}
+
+interface CategoryObject {
+  term: string;
+  scheme: string;
+  label: string;
 }
