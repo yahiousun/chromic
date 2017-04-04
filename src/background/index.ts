@@ -34,11 +34,21 @@ messageService.onrequest = (request) => {
     case MethodType.INITIALIZE: {
       FeedFinder
         .find(request.params.url)
-        .then(async (url: string) => {
-          return db.feeds.get(url);
+        .then(async (link: string) => {
+          let feed = await db.feeds.get(link);
+          if (!feed) {
+            const feedData = await FeedFinder.load(link);
+            feed = new Feed(feedData);
+            if (feed) {
+              feed.save();
+            };
+          }
+          if (feed) {
+            return feed;
+          }
+          throw new Error('Feed not found');
         })
         .then((feed: Feed) => {
-          console.log('feed', feed);
           messageService.respond({
             id: request.id,
             to: request.from,

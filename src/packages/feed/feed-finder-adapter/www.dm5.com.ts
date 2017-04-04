@@ -9,7 +9,7 @@ export default async function (url: string): Promise<string> {
   function getFeedUrl(doc: HTMLDocument) {
     const feedLink = <HTMLAnchorElement>doc.querySelector('.rss2>a');
     const feedUrl: string = feedLink && feedLink.getAttribute('href');
-    return feedUrl ? (new URL(url, feedUrl)).href : null;
+    return feedUrl ? (new URL(feedUrl, url)).href : null;
   }
 
   return fetch(url)

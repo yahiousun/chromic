@@ -10,8 +10,8 @@ class AppDatabase extends Dexie {
     super('AppDatabase');
 
     this.version(1).stores({
-      feeds: 'id, title, updated, link, author, categories, icon, subtitle',
-      posts: 'id, title, updated, read, link, author, content, summary, categories, enclosures, source',
+      feeds: 'link, id, title, updated, author, categories, icon, subtitle',
+      posts: 'link, id, title, updated, read, author, content, summary, categories, enclosures, source',
       categories: 'term, scheme, label'
     });
 

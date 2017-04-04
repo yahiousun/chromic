@@ -19,7 +19,7 @@ class Post {
 
   public async markAsRead() {
     return db.transaction('rw', db.posts, async() => {
-      this.read = (await db.posts.update(this.link, { read: 1 })) ? 1 : 0;
+      this.read = (await db.posts.update(this.id, { read: 1 })) ? 1 : 0;
     });
   }
 }

@@ -12,7 +12,33 @@ class Feed {
   public subtitle: string;
   public entries: Post[];
   constructor(props: FeedObject) {
+    const feed = { ...props };
+    if (feed.entries) {
+      const entries = feed.entries;
+      if (entries.length) {
+        this.entries = entries.map((entry) => {
+          return new Post(entry);
+        });
+      }
+      delete feed.entries;
+    }
+    // Define navigation properties.
+    // Making them non-enumerable will prevent them from being handled by indexedDB
+    // when doing put() or add().
+    Object.defineProperties(this, {
+        entries: { value: [], enumerable: false, writable: true },
+    });
     Object.assign(this, props);
+  }
+
+  public async save() {
+    return db.transaction('rw', db.feeds, db.posts, async() => {
+      // Save feed
+      return Promise.all([
+        db.feeds.put(this),
+        db.posts.bulkPut(this.entries)
+      ]);
+    });
   }
 
   public async delete() {

@@ -6,12 +6,13 @@ import { ContentRequestMessageService, MethodType } from '../packages/request-me
 @Injectable()
 export class RPCService {
   public channel: ContentRequestMessageService;
+  public ref: string;
   constructor() {
-    this.channel = new ContentRequestMessageService();
-
     const params = new URLSearchParams(location.search);
     const id = params.get('id');
 
+    this.channel = new ContentRequestMessageService();
+    this.ref = params.get('ref');
     if (id) {
       this.channel.respond({
         id: id,
@@ -25,7 +26,7 @@ export class RPCService {
         id: v4(),
         method: MethodType.INITIALIZE,
         params: {
-          url: location.href
+          url: this.ref
         }
       }, (response) => {
         console.log('response', response);
