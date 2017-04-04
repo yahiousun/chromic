@@ -14,6 +14,8 @@ export class AppComponent {
   constructor(private rpc: RPCService) {
     this.rpc.initialize().then((response) => {
       this.response = response;
+    }, (err) => {
+      this.response = err;
     });
   }
 }

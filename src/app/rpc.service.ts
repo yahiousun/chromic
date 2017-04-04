@@ -9,13 +9,15 @@ export class RPCService {
   constructor() {
     this.channel = new ContentRequestMessageService();
 
-    const params = window.location.search.split('?')[1];
-    const id = (params && params.split('=')[1]);
+    const params = new URLSearchParams(location.search);
+    const id = params.get('id');
 
-    this.channel.respond({
-      id: id,
-      result: id
-    });
+    if (id) {
+      this.channel.respond({
+        id: id,
+        result: id
+      });
+    }
   }
   public async initialize() {
     return new Promise<any>((resolve, reject) => {
