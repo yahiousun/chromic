@@ -15,7 +15,8 @@ class Embedded {
     bottom: 0,
     left: 0,
     position: 'fixed',
-    zIndex: 2147483647
+    zIndex: 2147483647,
+    background: '#FFFFFF'
   }
   static attrs = {
     frameBorder: 0,
@@ -25,8 +26,7 @@ class Embedded {
   public ref: HTMLIFrameElement;
   public state: string;
   public options: EmbeddedOptions;
-  constructor() {
-  }
+  constructor() {}
 
   public css(styles) {
     if (this.ref && styles) {
@@ -57,19 +57,24 @@ class Embedded {
 
       this.attr(this.options.attrs);
 
-      this.ref.addEventListener('load', this._onload, false);
-
       this.ref.src = this.url;
 
       document.body.appendChild(this.ref);
+      this.state = DONE;
+      if (this.onload) {
+        this.onload();
+      }
     }
   }
 
   public unload() {
     if (this.ref) {
-      this.ref.removeEventListener('load', this._onload);
+      this.ref.removeEventListener('load', this.onload);
       this.ref.parentNode.removeChild(this.ref);
       delete this.state;
+      if (this.onunload) {
+        this.onunload();
+      }
     }
   }
 
@@ -80,8 +85,12 @@ class Embedded {
     }
   }
 
-  private _onload = () => {
-    this.state = DONE;
+  public onload = () => {
+    document.body.style.overflow = 'hidden';
+  }
+
+  public onunload = () => {
+    document.body.style.overflow = null;
   }
 }
 

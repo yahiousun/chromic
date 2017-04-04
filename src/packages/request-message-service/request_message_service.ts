@@ -1,13 +1,14 @@
 namespace RequestMessageService {
   export interface RequestObject {
-    jsonrpc: string;
     method: string;
+    from?: number;
+    to?: number;
     params?: any;
     id?: string;
   }
 
   export interface ResponseObject {
-    jsonrpc: string;
+    to?: number;
     result?: any;
     error?: any;
     id: string;
@@ -19,13 +20,9 @@ namespace RequestMessageService {
     data?: any;
   }
 
-  export interface RequestCallback {
-    (response: ResponseObject): void;
-  }
+  export type RequestCallback = (response: ResponseObject) => void;
 
-  export interface RequestHandler {
-    (request: RequestObject): void;
-  }
+  export type RequestHandler = (request: RequestObject) => void;
 }
 
 export default RequestMessageService;

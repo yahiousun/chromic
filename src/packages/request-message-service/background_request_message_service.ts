@@ -13,7 +13,9 @@ class BackgroundRequestMessageService {
     if (!message.id) {
       // Handle Notification
       if (this.onnotification) {
-        this.onnotification(message);
+        const tabId = ((sender.tab && sender.tab.id) ? sender.tab.id : Number(sender.id));
+        const notification = { ...message, from: tabId };
+        this.onnotification(notification);
       }
     } else if (message && message.id && !message.method) {
       // Handle Response
@@ -23,20 +25,21 @@ class BackgroundRequestMessageService {
         callback(message);
       }
     } else {
+      const tabId = ((sender.tab && sender.tab.id) ? sender.tab.id : Number(sender.id));
+      const request = { ...message, from: tabId };
       // Handle Resquest
       if (/^forward\//.test(message.method)) {
-        const tabId = ((sender.tab && sender.tab.id) ? sender.tab.id : Number(sender.id));
-        this.request(tabId, message, (response) => {
-          this.respond(tabId, response);
+        this.request(request, (response) => {
+          this.respond({ ...response, to: request.from });
         });
       } else if (this.onrequest) {
-        this.onrequest(message);
+        this.onrequest(request);
       }
     }
   }
-  public request(tabId: number, message: RequestMessageService.RequestObject, callback: RequestMessageService.RequestCallback) {
+  public request(message: RequestMessageService.RequestObject, callback: RequestMessageService.RequestCallback) {
     this._callbacks.set(message.id, callback);
-    chrome.tabs.sendMessage(tabId, message);
+    chrome.tabs.sendMessage(message.to, message);
     return this;
   }
   public abort(msgId: string) {
@@ -49,8 +52,9 @@ class BackgroundRequestMessageService {
     chrome.tabs.sendMessage(tabId, message);
     return this;
   }
-  public respond(tabId: number, message: RequestMessageService.ResponseObject) {
-    chrome.tabs.sendMessage(tabId, message);
+  public respond(message: RequestMessageService.ResponseObject) {
+    console.log('send respond', message)
+    chrome.tabs.sendMessage(message.to, message);
     return this;
   }
 }
