@@ -1,6 +1,7 @@
 import { v4 } from 'uuid';
 import { BackgroundRequestMessageService, MethodType } from '../packages/request-message-service';
 import { FeedFinder, FeedParser } from '../packages/feed';
+import db from './database';
 
 const messageService = new BackgroundRequestMessageService();
 
@@ -32,6 +33,7 @@ messageService.onrequest = (request) => {
         to: request.from,
         result: 'No data'
       });
+      break;
     }
   }
 }

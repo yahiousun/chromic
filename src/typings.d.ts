@@ -20,7 +20,7 @@ interface FeedEntryObject {
   content?: any;
   summary?: string;
   categories?: string[];
-  enclosures?: string[];
+  enclosures?: any[];
   source?: string;
 }
 
