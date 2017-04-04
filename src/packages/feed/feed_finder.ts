@@ -9,8 +9,8 @@ namespace FeedFinder {
   }
 
   export async function load(url: string): Promise<FeedObject> {
-    const parser = new FeedParser();
-    return parser.parse(url);
+    const parser = new FeedParser(url);
+    return parser.load(url);
   }
 
   export function identify(url: string): number {
