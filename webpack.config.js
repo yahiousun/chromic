@@ -11,11 +11,9 @@ const { CommonsChunkPlugin } = require('webpack').optimize;
 const { AotPlugin } = require('@ngtools/webpack');
 
 const nodeModules = path.join(process.cwd(), 'node_modules');
-const entryPoints = ["inline","polyfills","sw-register","styles","vendor","main", "options", "background", "content"];
+const entryPoints = ["inline", "polyfills", "sw-register", "styles", "vendor", "main", "background", "content-scripts", "sandbox-scripts"];
 const baseHref = "";
 const deployUrl = "";
-
-
 
 
 module.exports = {
@@ -41,11 +39,11 @@ module.exports = {
     "background": [
       "./src/background/index.ts"
     ],
-    "options": [
-      "./src/options/index.ts"
+    "content-scripts": [
+      "./src/content-scripts/index.ts"
     ],
-    "content": [
-      "./src/content/index.ts"
+    "sandbox-scripts": [
+      "./src/sandbox-scripts/index.ts"
     ],
     "polyfills": [
       "./src/polyfills.ts"
@@ -223,7 +221,7 @@ module.exports = {
       "cache": true,
       "showErrors": true,
       "chunks": "all",
-      "excludeChunks": ["options", "background", "content"],
+      "excludeChunks": ["background", "content-scripts", "sandbox-scripts"],
       "title": "Webpack App",
       "xhtml": true,
       "chunksSortMode": function sort(left, right) {
@@ -241,8 +239,8 @@ module.exports = {
       }
     }),
     new HtmlWebpackPlugin({
-      "template": "./src/options.html",
-      "filename": "./options.html",
+      "template": "./src/background.html",
+      "filename": "./background.html",
       "hash": false,
       "inject": true,
       "compile": true,
@@ -250,21 +248,48 @@ module.exports = {
       "minify": false,
       "cache": true,
       "showErrors": true,
-      "chunks": "all",
-      "excludeChunks": ["background", "main", "content", "styles", "polyfills"],
-      "title": "Webpack App",
+      "chunks": "all", // ["inline", "background"]
+      "excludeChunks": ["main", "content-scripts", "sandbox-scripts"],
+      "title": "Chromic background",
       "xhtml": true,
       "chunksSortMode": function sort(left, right) {
         let leftIndex = entryPoints.indexOf(left.names[0]);
         let rightindex = entryPoints.indexOf(right.names[0]);
         if (leftIndex > rightindex) {
-            return 1;
+          return 1;
         }
         else if (leftIndex < rightindex) {
-            return -1;
+          return -1;
         }
         else {
-            return 0;
+          return 0;
+        }
+      }
+    }),
+    new HtmlWebpackPlugin({
+      "template": "./src/sandbox.html",
+      "filename": "./sandbox.html",
+      "hash": false,
+      "inject": true,
+      "compile": true,
+      "favicon": false,
+      "minify": false,
+      "cache": true,
+      "showErrors": true,
+      "chunks": ["inline", "sandbox-scripts"],
+      "title": "Chromic sandbox",
+      "xhtml": true,
+      "chunksSortMode": function sort(left, right) {
+        let leftIndex = entryPoints.indexOf(left.names[0]);
+        let rightindex = entryPoints.indexOf(right.names[0]);
+        if (leftIndex > rightindex) {
+          return 1;
+        }
+        else if (leftIndex < rightindex) {
+          return -1;
+        }
+        else {
+          return 0;
         }
       }
     }),

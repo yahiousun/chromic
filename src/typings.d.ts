@@ -4,40 +4,23 @@ interface NodeModule {
   id: string;
 }
 
-interface PersonObject {
-  name: string;
-  email?: string;
-  uri?: string;
-}
-
-interface FeedEntryObject {
-  id: string;
-  title: string;
-  updated: string;
-  read: number;
-  link?: string;
-  author?: PersonObject;
-  content?: any;
-  summary?: string;
-  categories?: CategoryObject[];
-  enclosures?: any[];
-  source?: string;
-}
-
-interface FeedObject {
-  id: string;
-  title: string;
-  updated: string;
-  link?: string;
-  author?: PersonObject;
-  categories?: CategoryObject[];
-  icon?: string;
-  subtitle?: string;
-  entries?: FeedEntryObject[];
-}
-
-interface CategoryObject {
-  term: string;
-  scheme: string;
-  label: string;
+/* JSON-RPC */
+declare namespace JSONRPC {
+  export interface RequestObject {
+    jsonrpc: string;
+    method: string;
+    params?: any;
+    id?: string;
+  }
+  export interface ResponseObject {
+    jsonrpc: string;
+    id: string;
+    result?: any;
+    error?: ErrorObject;
+  }
+  export interface ErrorObject {
+    code: number;
+    message: string;
+    data?: any;
+  }
 }
