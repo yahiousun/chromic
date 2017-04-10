@@ -16,7 +16,7 @@ export interface ComicEntryObject {
 
 export interface ComicObject {
   title: string;
-  id: string;
+  id?: string;
   url?: string;
   author?: string;
   contents?: LinkObject[]

@@ -1,4 +1,5 @@
 import { v4 } from 'uuid';
+import { RPCTimeoutError } from '../core/util';
 
 export type SandboxRequestCallback = (response: JSONRPC.ResponseObject) => void;
 export const JSON_RPC = '2.0';
@@ -43,9 +44,13 @@ class Sandbox {
         } else {
           reject(response.error);
         }
-      })
-      // Send JSON RPC request
+      });
+      // Send JSON-RPC request
       this.ref.contentWindow.postMessage(request, '*');
+      // Reject on timeout
+      setTimeout(() => {
+        reject(RPCTimeoutError);
+      }, 3000);
     });
   }
   public onrespond(id: string, callback: SandboxRequestCallback) {

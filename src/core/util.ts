@@ -27,3 +27,10 @@ export async function sha1(data: string) {
     .digest({name: 'SHA-1'}, stringToArrayBuffer(data))
     .then(result => arrayBufferToHex(result));
 }
+
+// Todo define rpc error
+export const RPCTimeoutError: JSONRPC.ErrorObject = {
+  code: -32603,
+  data: null,
+  message: 'Request Timeout'
+};

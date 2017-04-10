@@ -2,7 +2,7 @@
   "manifest_version": 2,
 
   "name": "Chromic",
-  "description": "Chrome comic reader",
+  "description": "a comic reader",
   "version": "0.1.0",
   "browser_action": {},
   "content_scripts": [
