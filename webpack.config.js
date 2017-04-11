@@ -200,6 +200,7 @@ module.exports = {
     new GlobCopyWebpackPlugin({
       "patterns": [
         "assets",
+        "_locales",
         "favicon.ico",
         "manifest.json"
       ],

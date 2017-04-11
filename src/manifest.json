@@ -4,6 +4,7 @@
   "name": "Chromic",
   "description": "a comic reader",
   "version": "0.1.0",
+  "default_locale": "zh_CN",
   "browser_action": {},
   "content_scripts": [
     {
