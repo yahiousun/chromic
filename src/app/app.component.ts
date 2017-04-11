@@ -12,4 +12,7 @@ export class AppComponent {
   title = 'app works!';
   constructor(private i18n: I18nService) {
   }
+  public log() {
+    console.log(123)
+  }
 }

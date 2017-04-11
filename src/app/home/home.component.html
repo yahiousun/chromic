@@ -1,0 +1,23 @@
+<md-toolbar color="primary" class="app-header">
+  <button md-icon-button (click)="sidenav.toggle()">
+    <md-icon>menu</md-icon>
+  </button>
+  <h2 class="app-title">Chromic</h2>
+</md-toolbar>
+<md-sidenav-container class="reader">
+  <md-sidenav #sidenav mode="over" class="app-sidenav">
+    <md-nav-list>
+      <h3 md-subheader>Collections</h3>
+      <md-list-item *ngFor="let comic of collections">
+        <h4 md-line>{{comic.title}}</h4>
+      </md-list-item>
+      <md-divider></md-divider>
+    </md-nav-list>
+  </md-sidenav>
+  <div class="main">
+    <md-card>
+      Hello
+    </md-card>
+    <div>1</div>
+  </div>
+</md-sidenav-container>

@@ -5,7 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { SelectivePreloadingStrategy } from './selective_preloading_strategy';
 
 const appRoutes: Routes = [
-
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
 ];
 
 @NgModule({
